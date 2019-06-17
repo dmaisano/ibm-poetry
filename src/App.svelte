@@ -1,6 +1,24 @@
 <script>
   import { fade, fly } from "svelte/transition";
 
+  function isDescendant(parent, child) {
+    let node = child.parentNode;
+    while (node != null) {
+      if (node == parent) return true;
+
+      node = node.parentNode;
+    }
+    return false;
+  }
+
+  document.addEventListener("mouseup", event => {
+    if (!visibility.menu) return;
+
+    if (!isDescendant(document.querySelector(".search-box"), event.target)) {
+      visibility.menu = false;
+    }
+  });
+
   const searchOption = {
     selected: "author",
     value: "",
@@ -12,22 +30,50 @@
     placeholder: "Search by Author"
   };
 
-  const visibility = {
+  let visibility = {
     poem: false,
     menu: false
   };
 
   let poems = {
     all: [],
-    filtered: []
+    filtered: [],
+    selected: {}
   };
 
+  let vocabulary = {};
+
   const changeSearchValue = event => {
+    searchOption.value = event.target.value;
+
+    if (poems.all.length) {
+      visibility.menu = true;
+      filterPoems(searchOption.value);
+    }
+
     if (event.keyCode === 13 && searchOption.value.length) {
       return fetchPoem();
     }
+  };
 
-    searchOption.value = event.target.value;
+  const hideMouseMenu = event => {
+    console.log(event);
+    visibility.menu = false;
+  };
+
+  const filterPoems = text => {
+    searchOption.placeholder = `Filter by Title or Search by ${
+      searchOption[searchOption.selected]
+    }`;
+
+    if (!text) {
+      poems.filtered = poems.all;
+      return;
+    }
+
+    poems.filtered = poems.all.filter(poem =>
+      poem.title.toLowerCase().includes(text.toLowerCase())
+    );
   };
 
   const changeSearchOption = event => {
@@ -35,8 +81,6 @@
     searchOption.selected = option;
     searchOption.placeholder = `Search by ${searchOption[option]}`;
   };
-
-  const vocabulary = {};
 
   // populate the vocabulary
   for (const letter of "abcdefghijklmnopqrstuvwxyz".split("")) {
@@ -48,12 +92,12 @@
   };
 
   const fetchPoem = async () => {
-    visibility.menu = true;
-
     try {
       let res = await fetch(
         `http://poetrydb.org/${searchOption.selected}/${searchOption.value}`
       );
+
+      visibility.menu = true;
 
       res = await res.json();
 
@@ -61,18 +105,19 @@
         poems.all = poems.filtered = res;
       } else {
         poems.all = poems.filtered = [];
+        setTimeout(() => {
+          visibility.menu = false;
+        }, 5000);
       }
     } catch (error) {
-      console.log({
-        error
-      });
-      poems = [];
-    } finally {
-      console.log(poems);
+      poems.all = poems.filtered = [];
+      setTimeout(() => {
+        visibility.menu = false;
+      }, 5000);
     }
   };
 
-  const foo = poem => {
+  const selectPoem = poem => {
     console.log(poem);
   };
 </script>
@@ -82,7 +127,7 @@
     display: none;
   }
 
-  .container {
+  .vocabulary-container {
     width: 100vw;
     height: 100vh;
 
@@ -127,27 +172,24 @@
   .search-box *:focus {
     z-index: 3;
   }
+
   .search-box .menu {
-    z-index: 10;
+    display: block;
     position: absolute;
+    z-index: 10;
     max-height: 330px;
     overflow-y: auto;
     max-width: 75vw;
+  }
+
+  .search-box .menu .menu-item {
+    padding: 0.5rem;
   }
 
   .search-box .menu .menu-item:hover:not(.placeholder) {
     background: #f1f1fc;
     color: #5755d9;
     cursor: pointer;
-  }
-
-  .search-box .menu .placeholder {
-    transition: opacity 3s ease-in-out;
-    -webkit-transition: opacity 3s ease-in-out;
-    -moz-transition: opacity 3s ease-in-out;
-    -ms-transition: opacity 3s ease-in-out;
-    -o-transition: opacity 3s ease-in-out;
-    opacity: 1;
   }
 
   .vocabulary {
@@ -181,7 +223,7 @@
   }
 </style>
 
-<div class={visibility.poem ? 'hidden' : 'container'}>
+<div class={!visibility.poem ? 'vocabulary-container' : 'hidden'}>
   <div class="search-box">
     <div>
       <input
@@ -190,15 +232,16 @@
         placeholder={searchOption.placeholder}
         on:keyup={changeSearchValue} />
 
-      <ul class={visibility.menu ? 'menu' : 'hidden'}>
+      <ul class={visibility.menu ? 'menu' : 'hidden'} data-search-menu>
         {#each poems.filtered as poem, idx}
-          <li in:fly={{ x: -1080, duration: 1500 }} class="menu-item">
-             {idx}) {poem.title} - {poem.author}
+          <li
+            on:click={() => selectPoem(poem)}
+            class="menu-item"
+            data-search-menu-item>
+             {poem.title} - {poem.author}
           </li>
         {:else}
-          <li out:fade={{ duration: 5000 }} class="menu-item placeholder">
-            No matches
-          </li>
+          <li class="menu-item">No matches</li>
         {/each}
       </ul>
 
@@ -210,7 +253,8 @@
       <option value="linecount">Number of Lines</option>
     </select>
     <button class="btn btn-lg btn-primary input-group-btn" on:click={fetchPoem}>
-      Submit
+      Search
+      <i class="icon icon-search" />
     </button>
   </div>
 
