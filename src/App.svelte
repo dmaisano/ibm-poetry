@@ -1,6 +1,8 @@
 <script>
   import { fade, fly } from "svelte/transition";
 
+  // TODO: use poemist https://poemist.github.io/poemist-apidoc/
+
   function isDescendant(parent, child) {
     let node = child.parentNode;
     while (node != null) {
