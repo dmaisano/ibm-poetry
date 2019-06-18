@@ -1,0 +1,13 @@
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+
+  .title {
+    & > *:not(:last-child) {
+      margin-right: 1.25rem;
+    }
+  }
+}

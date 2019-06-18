@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-interface RandomText {
+export interface RandomText {
   title: string;
   slug: string;
   length: number;

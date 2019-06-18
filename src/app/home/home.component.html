@@ -1,3 +1,23 @@
-<p>
-  home works!
-</p>
+<div class="home">
+  <div class="title">
+    <mat-form-field hintLabel="Max 3 characters">
+      <input
+        #input
+        matInput
+        maxlength="3"
+        [(ngModel)]="title"
+        (ngModelChange)="title = title.toUpperCase()"
+        placeholder="Poem Title"
+      />
+      <mat-hint align="end">{{ input.value?.length || 0 }}/3</mat-hint>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" (click)="getRandomText()">
+      Get Random Quote
+    </button>
+
+    <button mat-flat-button color="warn" (click)="getRandomText()">
+      Randomize
+    </button>
+  </div>
+</div>
