@@ -1,68 +1,27 @@
-*Psst — looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+# IbmPoetry
 
----
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.3.
 
-# svelte app
+## Development server
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+## Code scaffolding
 
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+## Build
 
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Get started
+## Running unit tests
 
-Install the dependencies...
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-```bash
-cd svelte-app
-npm install
-```
+## Running end-to-end tests
 
-...then start [Rollup](https://rollupjs.org):
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-```bash
-npm run dev
-```
+## Further help
 
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-
-## Deploying to the web
-
-### With [now](https://zeit.co/now)
-
-Install `now` if you haven't already:
-
-```bash
-npm install -g now
-```
-
-Then, from within your project folder:
-
-```bash
-now
-```
-
-As an alternative, use the [Now desktop client](https://zeit.co/download) and simply drag the unzipped project folder to the taskbar icon.
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public
-```
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
