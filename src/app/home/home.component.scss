@@ -15,11 +15,11 @@
   }
 
   .poetry-table {
-    width: 75%;
-    margin: 0auto;
+    margin: 0 auto;
 
     .filter-box {
-      margin: 1rem;
+      margin: 1rem 1rem 0 1rem;
+
       mat-form-field:nth-child(1) {
         width: calc(65% - 0.5rem);
         margin-right: 1rem;
@@ -32,6 +32,28 @@
 
     table {
       width: 100%;
+
+      th,
+      td {
+        &:nth-child(1) {
+          width: 2.25rem;
+        }
+
+        &:nth-child(2) {
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+        }
+
+        &:nth-child(3) {
+          padding-left: 0.5rem;
+          padding-right: 1.5rem;
+        }
+
+        &:nth-child(4) {
+          width: 2.25rem;
+          // padding-left: 1rem;
+        }
+      }
     }
   }
 }
