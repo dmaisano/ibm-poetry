@@ -10,8 +10,11 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   getPoetry(queryObj: PoemQuery): Observable<Poem[]> {
-    return this.http.get<Poem[]>(
-      `http://poetrydb.org/${queryObj.inputField}/${queryObj.text}`
-    );
+    const { inputField } = queryObj;
+    let { text } = queryObj;
+
+    text = text.toLowerCase().trim();
+
+    return this.http.get<Poem[]>(`http://poetrydb.org/${inputField}/${text}`);
   }
 }

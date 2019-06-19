@@ -10,6 +10,7 @@ export interface PoemQuery {
 }
 
 export interface Poem {
+  index?: number;
   author: string;
   title: string;
   linecount: string;
@@ -77,7 +78,19 @@ export class HomeComponent implements AfterViewInit, OnInit {
       } else {
         console.log(res.length);
 
-        this.poetry.data = res;
+        const poems = [];
+        this.poetry.data = [];
+
+        for (let i = 0; i < res.length; i++) {
+          const poem: Poem = res[i];
+
+          poems.push({
+            index: i + 1,
+            ...poem,
+          });
+        }
+
+        this.poetry.data = poems;
       }
     });
   }

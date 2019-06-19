@@ -18,6 +18,18 @@
     width: 75%;
     margin: auto;
 
+    .filter-box {
+      margin: 1rem;
+      mat-form-field:nth-child(1) {
+        width: calc(65% - 0.5rem);
+        margin-right: 1rem;
+      }
+
+      mat-form-field:nth-child(2) {
+        width: calc(35% - 0.5rem);
+      }
+    }
+
     table {
       width: 100%;
     }
