@@ -1,30 +1,8 @@
 <div class="home">
-  <!-- <div class="search-box">
-    <mat-form-field>
-      <input
-        matInput
-        [(ngModel)]="poemQuery.text"
-        [placeholder]="search_box_placeholder()"
-        (keydown)="inputSubmit($event)"
-      />
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select [(ngModel)]="poemQuery.inputField">
-        <mat-option value="author">Author</mat-option>
-        <mat-option value="title">Title</mat-option>
-        <mat-option value="lines">Phrase(s)</mat-option>
-        <mat-option value="linecount">Line Count</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button mat-flat-button color="primary" (click)="searchPoetry()">
-      Search
-      <mat-icon>search</mat-icon>
-    </button>
-  </div> -->
-
-  <!-- <div class="poetry-table mat-elevation-z8" [ngClass]="{ hidden: poetry.data.length < 1 }">
+  <div
+    class="poetry-table mat-elevation-z8"
+    [ngClass]="{ hidden: poetry.data.length < 1 }"
+  >
     <div class="filter-box">
       <mat-form-field>
         <input
@@ -50,7 +28,9 @@
 
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-        <td mat-cell *matCellDef="let element">{{ element.title | truncate: 50 }}</td>
+        <td mat-cell *matCellDef="let element">
+          {{ element.title | truncate: 50 }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="linecount">
@@ -76,5 +56,5 @@
       [pageSizeOptions]="[10, 20, 30]"
       showFirstLastButtons
     ></mat-paginator>
-  </div> -->
+  </div>
 </div>

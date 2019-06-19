@@ -3,16 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   padding: 2.5%;
-
-  .search-box {
-    margin-bottom: 1rem;
-
-    & > *:not(:last-child) {
-      margin-right: 1.25rem;
-    }
-  }
 
   .poetry-table {
     margin: 0 auto;
