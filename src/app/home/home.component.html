@@ -1,5 +1,5 @@
 <div class="home">
-  <div class="search-box">
+  <!-- <div class="search-box">
     <mat-form-field>
       <input
         matInput
@@ -10,7 +10,6 @@
     </mat-form-field>
 
     <mat-form-field>
-      <!-- 'author' | 'title' | 'lines' | 'linecount' -->
       <mat-select [(ngModel)]="poemQuery.inputField">
         <mat-option value="author">Author</mat-option>
         <mat-option value="title">Title</mat-option>
@@ -20,31 +19,19 @@
     </mat-form-field>
 
     <button mat-flat-button color="primary" (click)="searchPoetry()">
-      Search <mat-icon>search</mat-icon>
+      Search
+      <mat-icon>search</mat-icon>
     </button>
-  </div>
+  </div> -->
 
-  <div
-    class="poetry-table mat-elevation-z8"
-    [ngClass]="{ hidden: poetry.data.length < 1 }"
-  >
+  <!-- <div class="poetry-table mat-elevation-z8" [ngClass]="{ hidden: poetry.data.length < 1 }">
     <div class="filter-box">
       <mat-form-field>
         <input
           matInput
           (keyup)="filterTable($event.target.value)"
-          placeholder="Filter"
+          placeholder="Filter by Author, Title, Phrase(s), or Line Count"
         />
-      </mat-form-field>
-
-      <mat-form-field>
-        <!-- 'author' | 'title' | 'lines' | 'linecount' -->
-        <mat-select [(ngModel)]="poemQuery.inputField">
-          <mat-option value="author">Author</mat-option>
-          <mat-option value="title">Title</mat-option>
-          <mat-option value="lines">Phrase(s)</mat-option>
-          <mat-option value="linecount">Line Count</mat-option>
-        </mat-select>
       </mat-form-field>
     </div>
 
@@ -63,12 +50,21 @@
 
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.title | truncate: 50 }}</td>
       </ng-container>
 
       <ng-container matColumnDef="linecount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Line Count</th>
         <td mat-cell *matCellDef="let element">{{ element.linecount }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="button">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-flat-button color="primary" (click)="selectPoem(element)">
+            Select
+          </button>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="poetryColumns"></tr>
@@ -80,5 +76,5 @@
       [pageSizeOptions]="[10, 20, 30]"
       showFirstLastButtons
     ></mat-paginator>
-  </div>
+  </div> -->
 </div>
