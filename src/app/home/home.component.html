@@ -1,15 +1,11 @@
 <div class="home">
-  <div class="title">
-    <mat-form-field hintLabel="Max 3 characters">
+  <div class="search-box">
+    <mat-form-field>
       <input
-        #input
         matInput
-        maxlength="3"
-        [(ngModel)]="title"
-        (ngModelChange)="title = title.toUpperCase()"
-        placeholder="Poem Title"
+        [(ngModel)]="poemQuery.text"
+        [placeholder]="search_box_placeholder()"
       />
-      <mat-hint align="end">{{ input.value?.length || 0 }}/3</mat-hint>
     </mat-form-field>
 
     <button mat-flat-button color="primary" (click)="getRandomText()">
@@ -19,5 +15,12 @@
     <button mat-flat-button color="warn" (click)="getRandomText()">
       Randomize
     </button>
+  </div>
+
+  <div *ngIf="randomText">
+    {{ randomText.title }}
+  </div>
+  <div *ngIf="previousText">
+    {{ previousText.title }}
   </div>
 </div>

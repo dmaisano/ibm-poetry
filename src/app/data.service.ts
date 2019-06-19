@@ -1,13 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-export interface RandomText {
-  title: string;
-  slug: string;
-  length: number;
-  text: string[];
-}
+import { Poem, PoemQuery } from './home/home.component';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +9,9 @@ export interface RandomText {
 export class DataService {
   constructor(private http: HttpClient) {}
 
-  getRandomText(): Observable<RandomText> {
-    return this.http.get<RandomText>(`https://litipsum.com/api/json`);
+  getPoetry(queryObj: PoemQuery): Observable<Poem[]> {
+    return this.http.get<Poem[]>(
+      `http://poetrydb.org/${queryObj.inputField}/${queryObj.text}`
+    );
   }
 }
