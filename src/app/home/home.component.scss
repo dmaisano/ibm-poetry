@@ -1,13 +1,25 @@
 .home {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  // justify-content: center;
   align-items: center;
 
-  height: 100%;
+  // height: 100%;
 
   .search-box {
+    margin: 2rem 0 1rem 0;
+
     & > *:not(:last-child) {
       margin-right: 1.25rem;
+    }
+  }
+
+  .poetry-table {
+    width: 75%;
+    margin: auto;
+
+    table {
+      width: 100%;
     }
   }
 }

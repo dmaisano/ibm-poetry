@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from '../data.service';
 
 export interface PoemQuery {
@@ -18,34 +21,81 @@ export interface Poem {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements AfterViewInit, OnInit {
   title: string;
-
-  poetry: Poem[];
-  selectedPoem: Poem;
 
   poemQuery: PoemQuery = {
     inputField: 'author',
     text: '',
   };
 
+  poetry: MatTableDataSource<Poem> = new MatTableDataSource();
+  poetryColumns: string[] = ['position', 'author', 'title', 'linecount'];
+
+  selectedPoem: Poem;
+
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+
   constructor(private data: DataService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.poetry.paginator = this.paginator;
+    // this.poetry.sort = this.searchPoetry;
+  }
 
-  getRandomText() {
-    this.data.getPoetry(this.poemQuery).subscribe((poetry: Poem[]) => {
-      this.poetry = [];
+  ngAfterViewInit() {
+    this.poetry.sort = this.sort;
+    this.poetry.paginator = this.paginator;
+  }
 
-      for (const poem of poetry) {
-        this.poetry.push(poem);
+  inputSubmit(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.searchPoetry();
+    }
+  }
+
+  filterTable(filterValue: string) {
+    this.poetry.filter = filterValue.trim().toLowerCase();
+  }
+
+  searchPoetry() {
+    if (this.poemQuery.text === '') {
+      return;
+    }
+
+    this.data.getPoetry(this.poemQuery).subscribe((res: any) => {
+      if (res.status) {
+        // error goes here
+        return;
+      }
+
+      if (res.length < 1) {
+        // error goes here
+        return;
+      } else {
+        console.log(res.length);
+
+        this.poetry.data = res;
       }
     });
   }
 
   search_box_placeholder(): string {
-    return `Search by ${this.poemQuery.inputField
-      .charAt(0)
-      .toUpperCase()}${this.poemQuery.inputField.slice(1)}`;
+    const searchText = 'Search by';
+
+    switch (this.poemQuery.inputField) {
+      case 'author':
+        return `${searchText} Author`;
+      case 'title':
+        return `${searchText} Title`;
+      case 'lines':
+        return `${searchText} Phrase(s)`;
+      case 'linecount':
+        return `${searchText} Line Count`;
+      default:
+        break;
+    }
   }
 }

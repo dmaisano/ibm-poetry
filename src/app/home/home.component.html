@@ -5,22 +5,60 @@
         matInput
         [(ngModel)]="poemQuery.text"
         [placeholder]="search_box_placeholder()"
+        (keydown)="inputSubmit($event)"
       />
     </mat-form-field>
 
-    <button mat-flat-button color="primary" (click)="getRandomText()">
-      Get Random Quote
-    </button>
+    <mat-form-field>
+      <!-- 'author' | 'title' | 'lines' | 'linecount' -->
+      <mat-select [(ngModel)]="poemQuery.inputField">
+        <mat-option value="author">Author</mat-option>
+        <mat-option value="title">Title</mat-option>
+        <mat-option value="lines">Phrase(s)</mat-option>
+        <mat-option value="linecount">Line Count</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <button mat-flat-button color="warn" (click)="getRandomText()">
-      Randomize
+    <button mat-flat-button color="primary" (click)="searchPoetry()">
+      Search <mat-icon>search</mat-icon>
     </button>
   </div>
 
-  <div *ngIf="randomText">
-    {{ randomText.title }}
-  </div>
-  <div *ngIf="previousText">
-    {{ previousText.title }}
+  <div
+    class="poetry-table mat-elevation-z8"
+    [ngClass]="{ hidden: poetry.data.length < 1 }"
+  >
+    <table mat-table [dataSource]="poetry" matSort>
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element; let idx = index">
+          {{ idx + 1 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Author</th>
+        <td mat-cell *matCellDef="let element">{{ element.author }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="linecount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Line Count</th>
+        <td mat-cell *matCellDef="let element">{{ element.linecount }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="poetryColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: poetryColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [length]="poetry.data.length"
+      [pageSizeOptions]="[10, 20, 30]"
+      showFirstLastButtons
+    ></mat-paginator>
   </div>
 </div>
