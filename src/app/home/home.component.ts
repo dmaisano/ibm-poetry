@@ -10,6 +10,17 @@ export interface Poem {
   linecount: string;
   lines: string[];
 }
+
+export interface Vocabulary {
+  letter: string;
+  value: string;
+}
+
+export interface UserPoem {
+  title: string;
+  vocabulary: Vocabulary[];
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -17,6 +28,11 @@ export interface Poem {
 })
 export class HomeComponent implements AfterViewInit, OnInit {
   title: string;
+
+  userPoem: UserPoem = {
+    title: '',
+    vocabulary: [],
+  };
 
   dataSource: MatTableDataSource<Poem> = new MatTableDataSource();
   poetryColumns: string[] = [
@@ -37,13 +53,20 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.dataSource.data = [];
 
     this.getPoems();
+
+    for (const letter of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+      this.userPoem.vocabulary.push({
+        letter,
+        value: '',
+      });
+    }
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  getPoems() {
+  getPoems(): void {
     this.http.get('assets/poems.json').subscribe((poems: Poem[]) => {
       for (let i = 0; i < poems.length; i++) {
         const poem = poems[i];
@@ -62,11 +85,11 @@ export class HomeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  filterTable(filterValue: string) {
+  filterTable(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  selectPoem(poem: Poem) {
-    console.log(poem);
+  selectPoem(poem: Poem): void {
+    this.selectedPoem = poem;
   }
 }

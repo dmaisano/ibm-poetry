@@ -53,4 +53,24 @@
       }
     }
   }
+
+  .poem-title {
+    display: flex;
+
+    button {
+      margin: 0 0 1.5rem 1.5rem;
+    }
+  }
+
+  .vocabulary {
+    display: grid;
+    grid-template-columns: repeat(2, 12rem);
+    grid-gap: 1.5rem;
+  }
+
+  .poem-title,
+  .selected-poem,
+  .vocabulary {
+    margin-top: 1.5rem;
+  }
 }

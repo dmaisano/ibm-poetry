@@ -57,4 +57,30 @@
       showFirstLastButtons
     ></mat-paginator>
   </div>
+
+  <div class="poem-title">
+    <mat-form-field hintLabel="Max 3 characters" appearance="fill">
+      <mat-label>Poem Title</mat-label>
+      <input
+        matInput
+        #input
+        maxlength="3"
+        placeholder="Enter poem title"
+        [(ngModel)]="userPoem.title"
+        (ngModelChange)="userPoem.title = userPoem.title.toUpperCase()"
+      />
+      <mat-hint align="end">{{ input.value?.length || 0 }}/3</mat-hint>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary">Randomize</button>
+
+    <!-- selected poem -->
+  </div>
+
+  <div class="vocabulary">
+    <mat-form-field appearance="fill" *ngFor="let item of userPoem.vocabulary">
+      <mat-label>{{ item.letter }}</mat-label>
+      <input matInput placeholder="Enter phrase" [(ngModel)]="item.value" />
+    </mat-form-field>
+  </div>
 </div>
