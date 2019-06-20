@@ -18,7 +18,7 @@ export interface Poem {
 export class HomeComponent implements AfterViewInit, OnInit {
   title: string;
 
-  poetry: MatTableDataSource<Poem> = new MatTableDataSource();
+  dataSource: MatTableDataSource<Poem> = new MatTableDataSource();
   poetryColumns: string[] = [
     'position',
     'author',
@@ -34,18 +34,23 @@ export class HomeComponent implements AfterViewInit, OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.poetry.data = [];
+    this.dataSource.data = [];
 
     this.getPoems();
   }
 
   ngAfterViewInit() {
-    this.poetry.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
   }
 
   getPoems() {
-    this.http.get('assets/poems.json').subscribe((res: Poem[]) => {
-      console.log(res[7]);
+    this.http.get('assets/poems.json').subscribe((poems: Poem[]) => {
+      for (let i = 0; i < poems.length; i++) {
+        const poem = poems[i];
+        poem.index = i;
+      }
+
+      this.dataSource.data = poems;
     });
   }
 
@@ -58,7 +63,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   }
 
   filterTable(filterValue: string) {
-    this.poetry.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   selectPoem(poem: Poem) {
