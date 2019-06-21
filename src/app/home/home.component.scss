@@ -48,6 +48,14 @@
           button {
             font-size: 0.75rem;
             padding: 0;
+
+            &:first-child {
+              margin-right: 0.25rem;
+
+              mat-icon {
+                color: #373d42;
+              }
+            }
           }
         }
       }

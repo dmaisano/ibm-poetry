@@ -2,6 +2,12 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { PoemDialogComponent } from '../poem-dialog/poem-dialog.component';
 
 export interface Poem {
   index?: number;
@@ -47,7 +53,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, public dialog: MatDialog) {}
 
   ngOnInit() {
     this.dataSource.data = [];
@@ -91,5 +97,14 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
   selectPoem(poem: Poem): void {
     this.selectedPoem = poem;
+  }
+
+  viewPoem(poem: Poem): void {
+    const dialogRef = this.dialog.open(PoemDialogComponent, {
+      // width: '450px',
+      data: {
+        poem,
+      },
+    });
   }
 }
