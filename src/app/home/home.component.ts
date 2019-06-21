@@ -8,6 +8,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { PoemDialogComponent } from '../poem-dialog/poem-dialog.component';
+import { HelpDialogComponent } from '../help-dialog/help-dialog.component';
 
 export interface Poem {
   index?: number;
@@ -56,6 +57,13 @@ export class HomeComponent implements AfterViewInit, OnInit {
   constructor(private http: HttpClient, public dialog: MatDialog) {}
 
   ngOnInit() {
+    console.log(localStorage.getItem('first-time-visit'));
+
+    // show help dialog if the user visits the page for the first time
+    if (!localStorage.getItem('first-time-visit')) {
+      this.showHelp();
+    }
+
     this.dataSource.data = [];
 
     this.getPoems();
@@ -104,6 +112,18 @@ export class HomeComponent implements AfterViewInit, OnInit {
       // width: '450px',
       data: {
         poem,
+      },
+    });
+  }
+
+  showHelp(): void {
+    const dialogRef = this.dialog.open(HelpDialogComponent, {
+      width: '700px',
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: () => {
+        localStorage.setItem('first-time-visit', 'false');
       },
     });
   }

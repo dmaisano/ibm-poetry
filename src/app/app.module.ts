@@ -13,6 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { HomeComponent } from './home/home.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { PoemDialogComponent } from './poem-dialog/poem-dialog.component';
@@ -23,6 +24,7 @@ import { PoemDialogComponent } from './poem-dialog/poem-dialog.component';
     HomeComponent,
     TruncatePipe,
     PoemDialogComponent,
+    HelpDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,7 @@ import { PoemDialogComponent } from './poem-dialog/poem-dialog.component';
     MatSelectModule,
     MatTableModule,
   ],
-  entryComponents: [PoemDialogComponent],
+  entryComponents: [PoemDialogComponent, HelpDialogComponent],
   providers: [],
   bootstrap: [AppComponent],
 })

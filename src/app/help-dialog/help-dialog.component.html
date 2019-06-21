@@ -1,0 +1,58 @@
+<div class="content">
+  <h1 mat-dialog-title class="title">Getting Started</h1>
+  <div mat-dialog-content>
+    <p>
+      The purpose of this application is to generate an "IBM Poem". An IBM Poem
+      consists of 26 (random) words assigned to a corresponding an entry in the
+      dictionary, in this case a letter of the alphabet to form lines.
+    </p>
+
+    <p>
+      A three letter title is created. The title will be used to determine the
+      first three words of the first line. The first line is then permuted to
+      produce subsequent lines as per the algorithm.
+    </p>
+
+    <p>
+      To get started, simply fill out the inputs and assign words to different
+      corresponding letters. Words are case sensitive and you cannot have
+      duplicate words / phrases. If you are having trouble coming up with words
+      / phrases feel free to use the table and select a peom. Upon Selecting a
+      poem, the input boxes will automatically be populated with words at
+      random.
+    </p>
+
+    <p>
+      Furthermore, you can simply re-select the same poem to try and obtain a
+      different variety of words, hit the randomize button to change the
+      combination of existing words in the form.
+    </p>
+
+    <div class="links">
+      <p>For more information please refer to the following:</p>
+
+      <p>
+        <a href="https://elmcip.net/creative-work/ibm-poem">The IBM Poem</a>
+      </p>
+
+      <p>
+        <a
+          href="https://elmcip.net/critical-writing/les-mange-textes-creative-cannibalism-and-digital-poetry"
+          >Le(s) Mange Texte(s): Creative Cannibalism and Digital Poetry</a
+        >
+      </p>
+
+      <p>
+        <a
+          href="https://elmcip.net/critical-writing/prehistoric-digital-poetry-archaeology-forms-1959-1995"
+          >Prehistoric Digital Poetry: An Archaeology of Forms, 1959-1995</a
+        >
+      </p>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-flat-button color="warn" (click)="close()">
+      Close
+    </button>
+  </div>
+</div>

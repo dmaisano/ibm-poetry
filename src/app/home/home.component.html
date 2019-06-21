@@ -75,6 +75,10 @@
       <mat-hint align="end">{{ input.value?.length || 0 }}/3</mat-hint>
     </mat-form-field>
 
+    <button mat-raised-button color="accent" (click)="showHelp()">
+      <mat-icon>help</mat-icon>
+    </button>
+
     <button mat-raised-button color="primary">Randomize</button>
 
     <!-- selected poem -->
