@@ -1,20 +1,18 @@
-.content {
-  .title {
-    margin-bottom: 0;
-  }
+.title {
+  margin-bottom: 0;
+}
 
-  .author h4 {
-    font-weight: 500;
-  }
+.author h4 {
+  font-weight: 500;
+}
 
-  .poem {
-    .line {
-      margin: 0 0 0.4rem 0;
-    }
+.poem {
+  .line {
+    margin: 0 0 0.4rem 0;
   }
+}
 
-  .mat-dialog-actions {
-    display: flex;
-    justify-content: flex-end;
-  }
+.mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
 }

@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { HelpDialogComponent } from './help-dialog/help-dialog.component';
 import { HomeComponent } from './home/home.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { PoemDialogComponent } from './poem-dialog/poem-dialog.component';
 
 @NgModule({
@@ -23,8 +24,9 @@ import { PoemDialogComponent } from './poem-dialog/poem-dialog.component';
     AppComponent,
     HomeComponent,
     TruncatePipe,
-    PoemDialogComponent,
     HelpDialogComponent,
+    PoemDialogComponent,
+    ErrorDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,11 @@ import { PoemDialogComponent } from './poem-dialog/poem-dialog.component';
     MatSelectModule,
     MatTableModule,
   ],
-  entryComponents: [PoemDialogComponent, HelpDialogComponent],
+  entryComponents: [
+    HelpDialogComponent,
+    PoemDialogComponent,
+    ErrorDialogComponent,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

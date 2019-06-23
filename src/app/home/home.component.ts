@@ -7,8 +7,9 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { PoemDialogComponent } from '../poem-dialog/poem-dialog.component';
 import { HelpDialogComponent } from '../help-dialog/help-dialog.component';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { PoemDialogComponent } from '../poem-dialog/poem-dialog.component';
 
 export interface Poem {
   index?: number;
@@ -16,6 +17,7 @@ export interface Poem {
   title: string;
   linecount: string;
   lines: string[];
+  words: string[];
 }
 
 export interface Vocabulary {
@@ -57,7 +59,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
   constructor(private http: HttpClient, public dialog: MatDialog) {}
 
   ngOnInit() {
-    console.log(localStorage.getItem('first-time-visit'));
+    console.log({
+      uniqueVisitor: localStorage.getItem('first-time-visit'),
+    });
 
     // show help dialog if the user visits the page for the first time
     if (!localStorage.getItem('first-time-visit')) {
@@ -91,20 +95,15 @@ export class HomeComponent implements AfterViewInit, OnInit {
     });
   }
 
-  getWords(poem: Poem) {
-    const words = [];
-
-    for (const word of poem.lines.join().split(' ')) {
-      console.log(word);
-    }
-  }
-
   filterTable(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  selectPoem(poem: Poem): void {
-    this.selectedPoem = poem;
+  selectPoem(poem: Poem) {
+    const words = poem.words.sort(() => 0.5 - Math.random()).slice(0, 26);
+    for (const item of this.userPoem.vocabulary) {
+      item.value = words.pop();
+    }
   }
 
   viewPoem(poem: Poem): void {
@@ -114,6 +113,37 @@ export class HomeComponent implements AfterViewInit, OnInit {
         poem,
       },
     });
+  }
+
+  randomize() {
+    try {
+      let words: string[] = [];
+
+      for (const { value } of this.userPoem.vocabulary) {
+        if (value !== '') {
+          words.push(value);
+        }
+      }
+
+      if (words.length !== this.userPoem.vocabulary.length) {
+        throw new Error('Cannot have empty items');
+      }
+
+      words = words.sort(() => 0.5 - Math.random());
+
+      for (let i = 0; i < this.userPoem.vocabulary.length; i++) {
+        const item = this.userPoem.vocabulary[i];
+
+        item.value = words[i];
+      }
+    } catch (error) {
+      // error modal
+      this.dialog.open(ErrorDialogComponent, {
+        data: {
+          error,
+        },
+      });
+    }
   }
 
   showHelp(): void {

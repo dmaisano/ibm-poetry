@@ -1,17 +1,15 @@
-<div class="content">
-  <h1 mat-dialog-title class="title">{{ data.poem.title }}</h1>
-  <div mat-dialog-content>
-    <div class="author">
-      <h4>Author: {{ data.poem.author }}</h4>
-    </div>
+<h1 mat-dialog-title class="title">{{ data.poem.title }}</h1>
+<div mat-dialog-content>
+  <div class="author">
+    <h4>Author: {{ data.poem.author }}</h4>
+  </div>
 
-    <div class="poem">
-      <p class="line" *ngFor="let line of data.poem.lines">{{ line }}</p>
-    </div>
+  <div class="poem">
+    <p class="line" *ngFor="let line of data.poem.lines">{{ line }}</p>
   </div>
-  <div mat-dialog-actions>
-    <button mat-flat-button color="warn" (click)="close()">
-      Close
-    </button>
-  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button color="warn" (click)="close()">
+    Close
+  </button>
 </div>
