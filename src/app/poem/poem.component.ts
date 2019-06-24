@@ -27,6 +27,8 @@ export class PoemComponent implements OnInit {
 
     this.title = title;
 
+    window.scrollTo(0, 0);
+
     const lines: string[] = JSON.parse(generatedPoem);
 
     for (let i = 0; i < lines.length; i++) {
