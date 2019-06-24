@@ -1,16 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
-import { HelpDialogComponent } from '../help-dialog/help-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { HelpDialogComponent } from '../help-dialog/help-dialog.component';
 import { PoemDialogComponent } from '../poem-dialog/poem-dialog.component';
-import { stringify } from '@angular/compiler/src/util';
+import { Router } from '@angular/router';
 
 export interface Poem {
   index?: number;
@@ -45,25 +41,15 @@ export class HomeComponent implements AfterViewInit, OnInit {
   };
 
   dataSource: MatTableDataSource<Poem> = new MatTableDataSource();
-  poetryColumns: string[] = [
-    'position',
-    'author',
-    'title',
-    'linecount',
-    'button',
-  ];
+  poetryColumns: string[] = ['position', 'author', 'title', 'linecount', 'button'];
 
   selectedPoem: Poem;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
-  constructor(private http: HttpClient, public dialog: MatDialog) {}
+  constructor(private http: HttpClient, public dialog: MatDialog, private router: Router) {}
 
   ngOnInit() {
-    console.log({
-      uniqueVisitor: localStorage.getItem('first-time-visit'),
-    });
-
     // show help dialog if the user visits the page for the first time
     if (!localStorage.getItem('first-time-visit')) {
       this.showHelp();
@@ -197,12 +183,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
         }
       }
 
-      // line 1
-      let title = '';
-      for (const letter of this.userPoem.title) {
-        title += ` ${dict[letter]}`;
-      }
-
+      // create the first three lines
       const lines = [
         this.getNextLine(dict[this.userPoem.title[0]], dict),
         this.getNextLine(dict[this.userPoem.title[1]], dict),
@@ -217,7 +198,11 @@ export class HomeComponent implements AfterViewInit, OnInit {
         }
       }
 
-      sessionStorage.setItem('generated-peom', JSON.stringify(lines));
+      console.log(this.userPoem.title);
+      sessionStorage.setItem('generated-poem-title', this.userPoem.title);
+      sessionStorage.setItem('generated-poem', JSON.stringify(lines));
+
+      this.router.navigate(['/poem']);
     } catch (error) {
       // error modal
       this.dialog.open(ErrorDialogComponent, {

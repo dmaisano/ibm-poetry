@@ -1,3 +1,9 @@
-<p>
-  poem works!
-</p>
+<div class="container scrollbar">
+  <h1>"{{ title }}"</h1>
+
+  <div class="line" *ngFor="let line of lines">
+    <div class="word" *ngFor="let item of line" [ngStyle]="{ 'font-size': item.fontSize }">
+      {{ item.word }}
+    </div>
+  </div>
+</div>

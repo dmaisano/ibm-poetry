@@ -1,8 +1,5 @@
 <div class="home">
-  <div
-    class="poetry-table mat-elevation-z8"
-    [ngClass]="{ hidden: dataSource.data.length < 1 }"
-  >
+  <div class="poetry-table mat-elevation-z8" [ngClass]="{ hidden: dataSource.data.length < 1 }">
     <div class="filter-box">
       <mat-form-field>
         <input
@@ -43,11 +40,7 @@
         <td mat-cell *matCellDef="let element">
           <div class="buttons">
             <mat-icon (click)="viewPoem(element)">info</mat-icon>
-            <button
-              mat-flat-button
-              color="primary"
-              (click)="selectPoem(element)"
-            >
+            <button mat-flat-button color="primary" (click)="selectPoem(element)">
               Select
             </button>
           </div>
@@ -104,14 +97,9 @@
     </mat-form-field>
 
     <div class="create-btn">
-      <a
-        routerLink="/poem"
-        mat-raised-button
-        color="accent"
-        (click)="createPoem()"
-      >
+      <button mat-raised-button color="accent" (click)="createPoem()">
         Generate Poem
-      </a>
+      </button>
     </div>
   </section>
 </div>

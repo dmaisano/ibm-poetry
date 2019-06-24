@@ -18,11 +18,7 @@ $ibm-poetry-accent: mat-palette($mat-indigo, A200, A100, A400);
 $ibm-poetry-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$ibm-poetry-theme: mat-light-theme(
-  $ibm-poetry-primary,
-  $ibm-poetry-accent,
-  $ibm-poetry-warn
-);
+$ibm-poetry-theme: mat-light-theme($ibm-poetry-primary, $ibm-poetry-accent, $ibm-poetry-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -31,13 +27,26 @@ $ibm-poetry-theme: mat-light-theme(
 
 /* You can add global styles to this file, and also import other style files */
 
+// web font
+@import url('https://fonts.googleapis.com/css?family=Oldenburg&display=swap');
+
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+
+  &::-webkit-scrollbar {
+    width: 0.6rem;
+    background-color: #d3d3d3;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #373d42;
+  }
 }
 
 .hidden {
