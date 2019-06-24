@@ -10,6 +10,7 @@ import {
 import { HelpDialogComponent } from '../help-dialog/help-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { PoemDialogComponent } from '../poem-dialog/poem-dialog.component';
+import { stringify } from '@angular/compiler/src/util';
 
 export interface Poem {
   index?: number;
@@ -72,11 +73,15 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
     this.getPoems();
 
-    for (const letter of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
-      this.userPoem.vocabulary.push({
-        letter,
-        value: '',
-      });
+    if (!sessionStorage.getItem('user-poem')) {
+      for (const letter of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+        this.userPoem.vocabulary.push({
+          letter,
+          value: '',
+        });
+      }
+    } else {
+      this.userPoem = JSON.parse(sessionStorage.getItem('user-poem'));
     }
   }
 
@@ -104,6 +109,8 @@ export class HomeComponent implements AfterViewInit, OnInit {
     for (const item of this.userPoem.vocabulary) {
       item.value = words.pop();
     }
+
+    sessionStorage.setItem('user-poem', JSON.stringify(this.userPoem));
   }
 
   viewPoem(poem: Poem): void {
@@ -126,7 +133,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
       }
 
       if (words.length !== this.userPoem.vocabulary.length) {
-        throw new Error('Cannot have empty items');
+        throw new Error('Vocabulary must be filled!');
       }
 
       words = words.sort(() => 0.5 - Math.random());
@@ -136,11 +143,13 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
         item.value = words[i];
       }
+
+      sessionStorage.setItem('user-poem', JSON.stringify(this.userPoem));
     } catch (error) {
       // error modal
       this.dialog.open(ErrorDialogComponent, {
         data: {
-          error,
+          error: error.message,
         },
       });
     }
@@ -156,5 +165,81 @@ export class HomeComponent implements AfterViewInit, OnInit {
         localStorage.setItem('first-time-visit', 'false');
       },
     });
+  }
+
+  updatePoemTitle() {
+    this.userPoem.title = this.userPoem.title.toUpperCase();
+
+    sessionStorage.setItem('user-poem', JSON.stringify(this.userPoem));
+  }
+
+  updateValue(item: Vocabulary) {
+    item.value = item.value.toLowerCase() || '';
+
+    sessionStorage.setItem('user-poem', JSON.stringify(this.userPoem));
+  }
+
+  createPoem() {
+    try {
+      if (!this.userPoem.title) {
+        throw new Error('Missing poem title!');
+      }
+
+      const dict: {
+        [key: string]: string;
+      } = {};
+
+      for (const { letter, value } of this.userPoem.vocabulary) {
+        if (value === '' || value === undefined) {
+          throw new Error('Vocabulary must be filled!');
+        } else {
+          dict[letter] = value;
+        }
+      }
+
+      // line 1
+      let title = '';
+      for (const letter of this.userPoem.title) {
+        title += ` ${dict[letter]}`;
+      }
+
+      const lines = [
+        this.getNextLine(dict[this.userPoem.title[0]], dict),
+        this.getNextLine(dict[this.userPoem.title[1]], dict),
+        this.getNextLine(dict[this.userPoem.title[2]], dict),
+      ];
+
+      for (let i = 0; i < 3; i++) {
+        const line = lines[i];
+
+        for (const word of line.split(' ')) {
+          lines.push(this.getNextLine(word, dict));
+        }
+      }
+
+      sessionStorage.setItem('generated-peom', JSON.stringify(lines));
+    } catch (error) {
+      // error modal
+      this.dialog.open(ErrorDialogComponent, {
+        data: {
+          error: error.message,
+        },
+      });
+    }
+  }
+
+  private getNextLine(
+    word: string,
+    dict: {
+      [key: string]: string;
+    }
+  ) {
+    let line = '';
+
+    for (const letter of word) {
+      line += ` ${dict[letter.toUpperCase()]}`;
+    }
+
+    return line.trim();
   }
 }

@@ -74,7 +74,7 @@
         maxlength="3"
         placeholder="Enter poem title"
         [(ngModel)]="userPoem.title"
-        (ngModelChange)="userPoem.title = userPoem.title.toUpperCase()"
+        (ngModelChange)="updatePoemTitle()"
       />
       <mat-hint align="end">{{ input.value?.length || 0 }}/3</mat-hint>
     </mat-form-field>
@@ -95,7 +95,23 @@
 
     <mat-form-field appearance="fill" *ngFor="let item of userPoem.vocabulary">
       <mat-label>{{ item.letter }}</mat-label>
-      <input matInput placeholder="Enter phrase" [(ngModel)]="item.value" />
+      <input
+        matInput
+        placeholder="Enter phrase"
+        [(ngModel)]="item.value"
+        (ngModelChange)="updateValue(item)"
+      />
     </mat-form-field>
+
+    <div class="create-btn">
+      <a
+        routerLink="/poem"
+        mat-raised-button
+        color="accent"
+        (click)="createPoem()"
+      >
+        Generate Poem
+      </a>
+    </div>
   </section>
 </div>

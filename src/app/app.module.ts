@@ -18,6 +18,7 @@ import { HomeComponent } from './home/home.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { PoemDialogComponent } from './poem-dialog/poem-dialog.component';
+import { PoemComponent } from './poem/poem.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { PoemDialogComponent } from './poem-dialog/poem-dialog.component';
     HelpDialogComponent,
     PoemDialogComponent,
     ErrorDialogComponent,
+    PoemComponent,
   ],
   imports: [
     BrowserModule,
