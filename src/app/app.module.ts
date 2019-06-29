@@ -19,6 +19,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { PoemDialogComponent } from './poem-dialog/poem-dialog.component';
 import { PoemComponent } from './poem/poem.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { PoemComponent } from './poem/poem.component';
     MatInputModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatSnackBarModule,
     MatTableModule,
   ],
   entryComponents: [

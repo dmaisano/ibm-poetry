@@ -7,6 +7,7 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { HelpDialogComponent } from '../help-dialog/help-dialog.component';
 import { PoemDialogComponent } from '../poem-dialog/poem-dialog.component';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface Poem {
   index?: number;
@@ -41,13 +42,24 @@ export class HomeComponent implements AfterViewInit, OnInit {
   };
 
   dataSource: MatTableDataSource<Poem> = new MatTableDataSource();
-  poetryColumns: string[] = ['position', 'author', 'title', 'linecount', 'button'];
+  poetryColumns: string[] = [
+    'position',
+    'author',
+    'title',
+    'linecount',
+    'button',
+  ];
 
   selectedPoem: Poem;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
-  constructor(private http: HttpClient, public dialog: MatDialog, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    public dialog: MatDialog,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     // show help dialog if the user visits the page for the first time
@@ -97,6 +109,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
     }
 
     sessionStorage.setItem('user-poem', JSON.stringify(this.userPoem));
+
+    this.snackBar.open(`Selected Poem: "${poem.title}"`, 'Ok', {
+      duration: 3000,
+    });
   }
 
   viewPoem(poem: Poem): void {
