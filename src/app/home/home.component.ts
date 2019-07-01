@@ -191,11 +191,19 @@ export class HomeComponent implements AfterViewInit, OnInit {
         [key: string]: string;
       } = {};
 
+      const words = [];
+
       for (const { letter, value } of this.userPoem.vocabulary) {
         if (value === '' || value === undefined) {
           throw new Error('Vocabulary must be filled!');
         } else {
           dict[letter] = value;
+
+          if (words.includes(value)) {
+            throw new Error('Vocabulary cannot contain duplicate words!');
+          } else {
+            words.push(value);
+          }
         }
       }
 
